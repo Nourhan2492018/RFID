@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="230dp"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+             android:background="@drawable/k_shape_dialog_bg"
+              >
+
+    <TextView
+            android:id="@+id/printTvTipTitle"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            tools:text="温馨提示"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:background="@drawable/k_shape_dialog_title_bg"
+            />
+
+    <TextView
+            android:id="@+id/printTvTipMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="23dp"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="23dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            />
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5px"
+            android:background="@color/md_divider_light_theme"/>
+
+    <TextView
+            android:id="@+id/printTvIKnow"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@color/black"
+            android:textSize="12sp"/>
+</LinearLayout>

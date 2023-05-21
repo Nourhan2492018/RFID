@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.hprt.rfiddemo.ui.test.TestActivity">
+
+        <TextView
+                android:id="@+id/tv_msg"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+        <Button
+                android:id="@+id/btn_connect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="connect"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_msg"
+                />
+        <Button
+                android:id="@+id/btn_disconnect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="disconnect"
+                app:layout_constraintLeft_toRightOf="@id/btn_connect"
+                app:layout_constraintTop_toBottomOf="@+id/tv_msg"
+                />
+        <Button
+                android:id="@+id/btn_sn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SN"
+                app:layout_constraintLeft_toRightOf="@id/btn_disconnect"
+                app:layout_constraintTop_toBottomOf="@+id/tv_msg"
+                />
+        <Button
+                android:id="@+id/btn_device_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DeviceID"
+                app:layout_constraintLeft_toRightOf="@id/btn_sn"
+                app:layout_constraintTop_toBottomOf="@+id/tv_msg"
+                />
+        <Button
+                android:id="@+id/btn_battery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="battery"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_disconnect"
+                />
+
+        <Button
+            android:id="@+id/btn_power_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="poweroff"
+            app:layout_constraintLeft_toRightOf="@+id/btn_battery"
+            app:layout_constraintTop_toBottomOf="@+id/btn_disconnect"
+            />
+        <Button
+            android:id="@+id/btn_twinkle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Twinkle"
+            app:layout_constraintLeft_toRightOf="@+id/btn_power_off"
+            app:layout_constraintTop_toBottomOf="@+id/btn_disconnect"
+            />
+        <Button
+                android:id="@+id/btn_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Version"
+                app:layout_constraintLeft_toRightOf="@+id/btn_twinkle"
+                app:layout_constraintTop_toBottomOf="@+id/btn_disconnect"
+                />
+
+
+
+    <TextView
+        android:id="@+id/tv_log"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

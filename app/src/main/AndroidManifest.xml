@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        package="com.hprt.rfiddemo">
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <application
+            android:name=".app.RfidApp"
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_rf1"
+            android:label="${app_name}"
+            android:networkSecurityConfig="@xml/network_config"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme"
+            tools:replace="android:label">
+        <meta-data
+                android:name="design_width_in_dp"
+                android:value="360" />
+        <meta-data
+                android:name="design_height_in_dp"
+                android:value="640" />
+
+
+        <activity android:name=".ui.select.ChooseDeviceActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.main.rf2.RF2MainActivity"></activity>
+        <activity android:name=".ui.main.rf1p.RF1PMainActivity"></activity>
+        <activity android:name=".ui.main.rf1.RF1MainActivity"></activity>
+
+        <activity android:name=".ui.discovery.RF2DeviceListActivity"></activity>
+        <activity android:name=".ui.rfid.rf1.RF1RfidActivity"></activity>
+        <activity android:name=".ui.rfid.rf1p.RF1PRfidActivity"></activity>
+        <activity android:name=".ui.rfid.rf2.RF2RfidActivity"></activity>
+        <activity android:name=".ui.scan.RF2ScanActivity"></activity>
+
+        <provider
+                android:name="androidx.core.content.FileProvider"
+                android:authorities="${applicationId}.fileProvider"
+                android:exported="false"
+                android:grantUriPermissions="true"
+                tools:replace="name,authorities,exported,grantUriPermissions">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/provider_paths"
+                    tools:replace="name,resource" />
+        </provider>
+
+
+        <activity android:name=".ui.test.TestActivity"/>
+        <service android:name=".service.RFService"/>
+    </application>
+
+</manifest>

@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">RfidDemo</string>
+    <string name="inventory">盘点</string>
+    <string name="setting">设置</string>
+    <string name="read_label">读标签</string>
+    <string name="write_label">写标签</string>
+    <string name="password_lock">密码锁</string>
+    <string name="destory">销毁</string>
+    <string name="update">升级</string>
+    <string name="north_america_freq">北美(902-928)</string>
+    <string name="china_freq_1">中国1(920-925)</string>
+    <string name="china_freq_2">中国2(840-845)</string>
+    <string name="europe_freq">欧频(865-867)</string>
+    <string name="setting_freq">频率</string>
+
+    <string name="base_app_name">lib_base</string>
+    <string name="base_loading">正在处理</string>
+
+    <dimen name="base_dp_140">140dp</dimen>
+</resources>

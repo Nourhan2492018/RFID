@@ -1,0 +1,172 @@
+apply plugin: 'bugly'
+
+def getVersionProperties() {
+    def versionFile = file("version.properties")
+    if (versionFile.canRead()) {
+        def versionProperties = new Properties()
+        versionProperties.load(new FileInputStream(versionFile))
+        return versionProperties
+    } else {
+        throw new FileNotFoundException("Could not find version.properties!")
+    }
+}
+
+def getVersionCode() {
+    def versionCode = getVersionProperties()['VERSION_CODE']
+    return versionCode.toInteger()
+}
+
+def getVersionName() {
+    def versionName = getVersionProperties()['VERSION_NAME']
+    def runTasks = gradle.startParameter.taskNames.toString().toLowerCase() //仅在assembleRelease任务是增加版本号,其他渠道包在此分别配置
+    def versionCode = getVersionProperties()['VERSION_CODE']
+    if (runTasks.contains('assemble')) {
+        if (runTasks.contains('beta')) {
+            versionName = versionName + "-beta" + versionCode.substring(6, 8).toInteger()
+        } else if (runTasks.contains('debug')) {
+            versionName = versionName + "-debug" + versionCode.substring(6, 8).toInteger()
+        } else if (runTasks.contains('release')) {
+            versionName = versionName.toString()
+        } else {
+        }
+    }
+    return versionName.toString()
+}
+
+Properties props = new Properties()
+props.load(new FileInputStream(file("../prt.properties")))
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 28
+    def currentVersionCode = getVersionCode()
+    def currentVersionName = getVersionName()
+    defaultConfig {
+        applicationId "com.hprt.rfid.rfiddemo"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode currentVersionCode
+        versionName currentVersionName
+        multiDexEnabled = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
+    }
+    androidExtensions {
+        experimental = true
+    }
+    kapt {
+        generateStubs = true
+        arguments {
+            arg("AROUTER_MODULE_NAME", project.getName())
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    android {
+        compileOptions {
+            sourceCompatibility 1.8
+            targetCompatibility 1.8
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(props['KEYSTORE_FILE'])
+            storePassword props['KEYSTORE_PASSWORD']
+            keyAlias props['KEY_ALIAS']
+            keyPassword  props['KEY_PASSWORD']
+        }
+    }
+    buildTypes {
+        debug {
+            debuggable true
+            applicationIdSuffix ".debug"
+            signingConfig signingConfigs.release
+            zipAlignEnabled false
+            shrinkResources false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "IS_DEBUG", "true"
+            manifestPlaceholders = [app_name: "M1RF1-debug"]
+        }
+        beta {
+            debuggable true
+            applicationIdSuffix ".beta"
+            zipAlignEnabled false
+            shrinkResources false
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "IS_DEBUG", "true"
+            manifestPlaceholders = [app_name: "M1RF1-beta"]
+        }
+
+        release {
+            debuggable false
+            zipAlignEnabled false
+            shrinkResources false
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "IS_DEBUG", "true"
+            manifestPlaceholders = [app_name: "RF1"]
+        }
+
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                def fileName = outputFile.name
+                if (variant.buildType.name == 'release') {//如果是release包
+                    fileName = "RF_v${currentVersionName}.apk"
+                } else if (variant.buildType.name == 'beta') {//如果是release包
+                    fileName = "RF_v${currentVersionName}.apk"
+                } else if (variant.buildType.name == 'debug') {//如果是debug包
+                    fileName = "RF_v${currentVersionName}.apk"
+                }
+                outputFileName = fileName
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.core:core-ktx:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-alpha1'
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.2@aar'
+    implementation 'com.github.arcadefire:nice-spinner:1.3.4'
+    implementation 'com.leon:lfilepickerlibrary:1.8.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
+    implementation 'com.afollestad.material-dialogs:core:3.1.1'
+    implementation 'com.qmuiteam:qmui:2.0.0-alpha10'
+
+    implementation rootProject.ext.dependencies["androideventbus"]
+    implementation rootProject.ext.dependencies["BRVAH"]
+    implementation rootProject.ext.dependencies["utilcode"]
+    implementation rootProject.ext.dependencies["multidex"]
+
+
+}
+
